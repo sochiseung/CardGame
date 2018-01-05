@@ -1,7 +1,7 @@
 import java.util.*;
 
 /**
- * @author : Intellicon Lab. soh
+ * @author :
  * @version 1.0
  *          <p>
  *          == Modification Information ==

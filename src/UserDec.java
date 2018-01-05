@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * @author : Intellicon Lab. soh
+ * @author :
  * @version 1.0
  *          <p>
  *          == Modification Information ==
