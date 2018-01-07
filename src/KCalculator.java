@@ -12,36 +12,40 @@ import java.util.*;
  * @packgename : PACKAGE_NAME
  * @description :
  */
-public class Combination {
+public class KCalculator {
     private ArrayList<String> combinationTmpList;
-    private Map<String, Integer> cardMap;
+    private Map<String, Integer> criterionCardMap;
 
-    public Combination(Map<String, Integer> cardMap){
+    public KCalculator(Map<String, Integer> criterionCardMap){
         combinationTmpList = new ArrayList<String>();
-        this.cardMap = cardMap;
-        String[] cards = cardMap.keySet().toArray(new String[cardMap.keySet().size()]);
+        this.criterionCardMap = criterionCardMap;
+        String[] cards = criterionCardMap.keySet().toArray(new String[criterionCardMap.keySet().size()]);
         Arrays.sort(cards);
         for(int i = 1; i <= cards.length; i++){
-            this.refineCombination(cards,i);
+            this.makeNormalCombination(cards,i);
         }
     }
-    public static void main(String[] args){
-        Map<String, Integer> cardMap = new HashMap<>();
-
-        cardMap.put("C1", 30000);
-        cardMap.put("C2", 50000);
-        cardMap.put("C3", 50000);
-        cardMap.put("C4", 100000);
-
-
-//        Collections.addAll(cards, cardMap.keySet());
-
-//      모든 조합을 만드는
-        Combination combi = new Combination(cardMap);
-        System.out.println(combi.getCardsValue("C1,C3,"));
+    public int getCardsValue(String cardKey){
+        return this.criterionCardMap.getOrDefault(cardKey,0);
+    }
+    public Map<String, Integer> getCriterionCardMap(){
+        return criterionCardMap;
     }
 
-    private void refineCombination(String[] cardList, int numberOfr){
+    private void makeSingularCombination(String[] userCards){
+        /*
+        입력 카드에 대한 제한 값에 따른 조합을 함
+        - 구한 조합에 대한 계산을 진행한다.
+        -- 입력카드는 조합 별 합을 구함 - userValueMap
+        - (userValueMap 키값과 criterionCardMap의 키값 포맷이 동일 해야함.)
+        -
+         */
+        for(int i = 1; i <= userCards.length; i++){
+            this.makeNormalCombination(userCards,i);
+        }
+
+    }
+    private void makeNormalCombination(String[] cardList, int numberOfr){
         int cardListLength = cardList.length;
         int[] arr = new int[cardListLength];
 
@@ -51,23 +55,20 @@ public class Combination {
                 String[] coms = com.split(",");
                 int max = 0;
                 for(String card: coms){
-                    int cardValue = this.cardMap.getOrDefault(card,0);
+                    int cardValue = this.criterionCardMap.getOrDefault(card,0);
                     if(cardValue > max){
                         max = cardValue;
                     }
                 }
-                cardMap.put(com, max);
-//                System.out.println(com+"  "+max);
-
-
+                criterionCardMap.put(com, max);
             }
         }
         this.combinationTmpList.clear();
     }
 
-    public int getCardsValue(String cardKey){
-        return this.cardMap.getOrDefault(cardKey,0);
-    }
+
+
+
     private void combination(String[] cardList, int[] arr, int index, int n, int r, int target)
     {
         String combiString = "";
